@@ -1,6 +1,6 @@
 import random
 def dice():
-    throws = (input("Give the rolls of the dice in the form xDy+z or xDy-z, where x is the number of dice rolls, Dy is the type of the die (can be D3, D4, D6, D8, D10, D12, D20, D100) and az is the number of must be added (optional)"))
+    throws = (input("Give the rolls of the dice in the form xDy+z or xDy-z, where x is the number of dice rolls, Dy is the type of the dice (can be D3, D4, D6, D8, D10, D12, D20, D100) and z is the number that must be added or substracted (optional)"))
     data = list(throws)
     return(data) #funkcja zwraca dane wprowazone przez gracza w postaci listy pojedynczych elementów (np. ["2", "3", "D", "+", "8", "7"])
 
