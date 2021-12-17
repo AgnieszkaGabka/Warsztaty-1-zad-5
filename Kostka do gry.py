@@ -1,24 +1,24 @@
 import random
-def kostka():
-    rzuty = (input("Podaj rzuty kostką w formie xDy+z lub xDy-z, gdzie x to ilość rzutów kością, Dy to rodzaj kostki (może być D3, D4, D6, D8, D10, D12, D20, D100), a z to ilość oczek, które należy dodać (opcjonalnie)"))
-    dane = list(rzuty)
-    return(dane) #funkcja zwraca dane wprowazone przez gracza w postaci listy pojedynczych elementów (np. ["2", "3", "D", "+", "8", "7"])
+def dice():
+    throws = (input("Give the rolls of the dice in the form xDy+z or xDy-z, where x is the number of dice rolls, Dy is the type of the die (can be D3, D4, D6, D8, D10, D12, D20, D100) and az is the number of must be added (optional)"))
+    data = list(throws)
+    return(data) #funkcja zwraca dane wprowazone przez gracza w postaci listy pojedynczych elementów (np. ["2", "3", "D", "+", "8", "7"])
 
-def spacje(): #funckja usuwa spacje gdyby gracz wpisał ciąg znakóœ ze spacjami
-    dane = kostka()
+def spaces(): #funkcja usuwa spacje gdyby gracz wpisał ciąg znakóœ ze spacjami
+    dane = dice()
     dane = [x.strip(' ') for x in dane]
     delete = [ele for ele in dane if ele.strip()]
     return(delete)
 
 def merge(): #funkcja łączy wszystkie występujące obok siebie cyfry w liczby
-    dane = spacje()
+    data = spaces()
     index = 1
-    while index < len(dane):
-        if dane[index].isdigit() and dane[index - 1].isdigit():
-            dane[index - 1] += dane.pop(index)
+    while index < len(data):
+        if data[index].isdigit() and data[index - 1].isdigit():
+            data[index - 1] += data.pop(index)
         else:
             index += 1
-    return(dane) #funckja zwraca listę, np ["23", "D", "+", "87"]
+    return(data) #funckja zwraca listę, np ["23", "D", "+", "87"]
 
 def convert(): #funkcja zamienia wszystkie liczby na dane int
     newdane = merge()
@@ -29,39 +29,39 @@ def convert(): #funkcja zamienia wszystkie liczby na dane int
             pass
     return(newdane) #funkcja zwraca listę, np [23, "D", "+", 87]
 
-def losowanie(): #funkcja losuje liczby zgodnie z danymi wprowadzonymi przez gracza i zmienionymi przez powyższe funkcje
-    dane=convert()
-    scianki = [3, 4, 6, 8, 10, 12, 20, 100] #dozwolone ścianki kostki w rzutach
-    for index, x in enumerate(dane):
+def draw(): #funkcja losuje liczby zgodnie z danymi wprowadzonymi przez gracza i zmienionymi przez powyższe funkcje
+    data = convert()
+    walls = [3, 4, 6, 8, 10, 12, 20, 100] #dozwolone ścianki kostki w rzutach
+    for index, x in enumerate(data):
         if index == 0: #dla pierwszej liczby sprawdzanie czy liczba jest typu int
             if type(x) == int:
                 pass
             else:
-                print("Podaj pooprawne wartości")
+                print("Enter the correct values")
         if index == 1: #sprawdzanie czy gracz wpisał D
             if x == "D":
                 pass
             else:
-                print("Upewnij się, że uwzględniłeś D w danych")
+                print("Make sure you included D in your data")
         if index == 2: #sprawdzanie czy gracz wybrał dozwoloną ilość ścianek
-            if x in scianki:
+            if x in walls:
                 pass
             else:
-                print("Podaj odpowiednią ilośc ścianek kostki")
+                print("Enter the appropriate number of cube walls")
         if index == 3: #sprawdzanie czy gracz wybrał + lub -
             if x == "+" or x == "_":
                 pass
             else:
-                print("Podaj poprawną wartość: + lub -")
+                print("Enter a valid value: + or -")
         if index == 4: #sprawdzanie czy gracz wprowadził liczbę do dodania do rzutu
             if type(x) == int:
                 pass
             else:
-                print("Podaj poprawne wartości")
-        return(dane)
+                print("Enter the correct values")
+        return(data)
 
-def symulacja(): #symulacja losowania
-    c = losowanie()
+def simulation(): #symulacja losowania
+    c = draw()
     x = c[2] #drugi index z listy - ilość ścianek
     y = c[0] #zerowy index z listy - ilość rzutów kostką
     try:
@@ -75,14 +75,15 @@ def symulacja(): #symulacja losowania
     a = random.randint(1, x)
     try: # sprawdzanie czy użytkownik życzy sobie dodać lub odjąć liczbę - jeśli nie, funckja pomija te indexy w liście
         if w == "+":
-            wynik = y * a + z
+            score = y * a + z
         elif w == "-":
-            wynik = y * a - z
+            score = y * a - z
+        else:
+            print("Incorrectly entered data")
     except (UnboundLocalError):
-        wynik = y * a
-    else:
-        print("Błednie wprowadzone dane")
-    return(wynik) #funkcja zwraca wylosowany wynik
+        score = y * a
+
+    return(score) #funkcja zwraca wylosowany wynik
 
 
-print(symulacja())
+print(simulation())
